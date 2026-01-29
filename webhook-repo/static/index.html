@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="TechStax GitHub Events Dashboard - Real-time monitoring of repository activities"
+		/>
+		<title>TechStax | GitHub Events Dashboard</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="/static/styles.css" />
+	</head>
+	<body>
+		<!-- Animated background gradient orbs -->
+		<div class="background-effects">
+			<div class="gradient-orb orb-1"></div>
+			<div class="gradient-orb orb-2"></div>
+			<div class="gradient-orb orb-3"></div>
+		</div>
+
+		<div class="app-container">
+			<!-- Header Section -->
+			<header class="header">
+				<div class="header-content">
+					<div class="logo-section">
+						<div class="logo">
+							<svg
+								width="40"
+								height="40"
+								viewBox="0 0 40 40"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<rect
+									width="40"
+									height="40"
+									rx="10"
+									fill="url(#logo-gradient)"
+								/>
+								<path
+									d="M20 8C13.4 8 8 13.4 8 20C8 25.3 11.6 29.8 16.5 31.2C17.1 31.3 17.3 30.9 17.3 30.6C17.3 30.3 17.3 29.5 17.3 28.5C13.9 29.2 13.2 26.9 13.2 26.9C12.6 25.6 11.8 25.3 11.8 25.3C10.6 24.5 11.9 24.5 11.9 24.5C13.2 24.6 13.9 25.8 13.9 25.8C15.1 27.6 17 27.1 17.4 26.8C17.5 26 17.8 25.4 18.2 25.1C15.3 24.8 12.3 23.7 12.3 19.2C12.3 18 12.7 17 13.5 16.3C13.4 16 13 14.9 13.6 13.4C13.6 13.4 14.7 13.1 17.2 14.5C18.2 14.2 19.2 14.1 20.2 14.1C21.2 14.1 22.2 14.2 23.2 14.5C25.7 13.1 26.8 13.4 26.8 13.4C27.4 14.9 27 16 26.9 16.3C27.7 17 28.1 18 28.1 19.2C28.1 23.7 25.1 24.8 22.2 25.1C22.6 25.5 23 26.2 23 27.2C23 28.7 23 29.9 23 30.3C23 30.6 23.2 30.9 23.8 30.8C28.6 29.4 32.2 24.9 32.2 19.6C32 13.4 26.6 8 20 8Z"
+									fill="white"
+								/>
+								<defs>
+									<linearGradient
+										id="logo-gradient"
+										x1="0"
+										y1="0"
+										x2="40"
+										y2="40"
+										gradientUnits="userSpaceOnUse"
+									>
+										<stop stop-color="#7C3AED" />
+										<stop offset="1" stop-color="#2563EB" />
+									</linearGradient>
+								</defs>
+							</svg>
+						</div>
+						<div class="title-section">
+							<h1>GitHub Events</h1>
+							<p class="subtitle">Real-time Repository Activity Monitor</p>
+						</div>
+					</div>
+					<div class="status-section">
+						<div class="status-indicator" id="status-indicator">
+							<span class="status-dot"></span>
+							<span class="status-text">Connecting...</span>
+						</div>
+						<div class="refresh-timer" id="refresh-timer">
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 16 16"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M8 3V1L5 4L8 7V5C10.21 5 12 6.79 12 9C12 11.21 10.21 13 8 13C5.79 13 4 11.21 4 9H2C2 12.31 4.69 15 8 15C11.31 15 14 12.31 14 9C14 5.69 11.31 3 8 3Z"
+									fill="currentColor"
+								/>
+							</svg>
+							<span id="countdown">15</span>s
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<!-- Main Content -->
+			<main class="main-content">
+				<!-- Stats Cards -->
+				<section class="stats-section">
+					<div class="stat-card" id="stat-total">
+						<div class="stat-icon total-icon">
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<span class="stat-value" id="total-count">0</span>
+							<span class="stat-label">Total Events</span>
+						</div>
+					</div>
+					<div class="stat-card" id="stat-push">
+						<div class="stat-icon push-icon">
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<span class="stat-value" id="push-count">0</span>
+							<span class="stat-label">Pushes</span>
+						</div>
+					</div>
+					<div class="stat-card" id="stat-pr">
+						<div class="stat-icon pr-icon">
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M6 3C4.35 3 3 4.35 3 6C3 7.3 3.84 8.4 5 8.82V15.18C3.84 15.6 3 16.7 3 18C3 19.65 4.35 21 6 21C7.65 21 9 19.65 9 18C9 16.7 8.16 15.6 7 15.18V8.82C8.16 8.4 9 7.3 9 6C9 4.35 7.65 3 6 3ZM6 5C6.55 5 7 5.45 7 6C7 6.55 6.55 7 6 7C5.45 7 5 6.55 5 6C5 5.45 5.45 5 6 5ZM6 19C5.45 19 5 18.55 5 18C5 17.45 5.45 17 6 17C6.55 17 7 17.45 7 18C7 18.55 6.55 19 6 19ZM21 18C21 16.7 20.16 15.6 19 15.18V9C19 6.79 17.21 5 15 5H13V3L9 6L13 9V7H15C16.1 7 17 7.9 17 9V15.18C15.84 15.6 15 16.7 15 18C15 19.65 16.35 21 18 21C19.65 21 21 19.65 21 18ZM18 19C17.45 19 17 18.55 17 18C17 17.45 17.45 17 18 17C18.55 17 19 17.45 19 18C19 18.55 18.55 19 18 19Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<span class="stat-value" id="pr-count">0</span>
+							<span class="stat-label">Pull Requests</span>
+						</div>
+					</div>
+					<div class="stat-card" id="stat-merge">
+						<div class="stat-icon merge-icon">
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M7.41 15.41L12 10.83L16.59 15.41L18 14L12 8L6 14L7.41 15.41Z"
+									fill="currentColor"
+									transform="rotate(180 12 12)"
+								/>
+								<path
+									d="M6 18C4.35 18 3 16.65 3 15C3 13.7 3.84 12.6 5 12.18V6C5 5.45 5.45 5 6 5C6.55 5 7 5.45 7 6V12.18C8.16 12.6 9 13.7 9 15C9 16.65 7.65 18 6 18ZM6 14C5.45 14 5 14.45 5 15C5 15.55 5.45 16 6 16C6.55 16 7 15.55 7 15C7 14.45 6.55 14 6 14ZM18 18C16.35 18 15 16.65 15 15C15 13.7 15.84 12.6 17 12.18V6C17 5.45 17.45 5 18 5C18.55 5 19 5.45 19 6V12.18C20.16 12.6 21 13.7 21 15C21 16.65 19.65 18 18 18ZM18 14C17.45 14 17 14.45 17 15C17 15.55 17.45 16 18 16C18.55 16 19 15.55 19 15C19 14.45 18.55 14 18 14Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<span class="stat-value" id="merge-count">0</span>
+							<span class="stat-label">Merges</span>
+						</div>
+					</div>
+				</section>
+
+				<!-- Events Feed -->
+				<section class="events-section">
+					<div class="section-header">
+						<h2>Activity Feed</h2>
+						<div class="filter-buttons">
+							<button class="filter-btn active" data-filter="all">All</button>
+							<button class="filter-btn" data-filter="PUSH">Push</button>
+							<button class="filter-btn" data-filter="PULL_REQUEST">PR</button>
+							<button class="filter-btn" data-filter="MERGE">Merge</button>
+						</div>
+					</div>
+
+					<!-- Empty State -->
+					<div class="empty-state" id="empty-state">
+						<div class="empty-illustration">
+							<svg
+								width="120"
+								height="120"
+								viewBox="0 0 120 120"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<circle
+									cx="60"
+									cy="60"
+									r="50"
+									stroke="url(#empty-gradient)"
+									stroke-width="2"
+									stroke-dasharray="8 4"
+								/>
+								<path
+									d="M60 35C46.2 35 35 46.2 35 60C35 71.5 42.5 81.2 53 84.6C54.5 84.9 55 83.9 55 83.1C55 82.4 55 80.5 55 78.1C47.6 79.8 45.8 74.4 45.8 74.4C44.4 71.2 42.4 70.3 42.4 70.3C39.6 68.5 42.6 68.5 42.6 68.5C45.7 68.7 47.3 71.6 47.3 71.6C50 75.9 54.5 74.6 55.3 73.8C55.5 72 56.3 70.8 57.2 70.1C51.6 69.4 45.7 67.1 45.7 56.4C45.7 53.4 46.8 51 48.5 49.1C48.2 48.4 47.1 45.7 48.7 42.1C48.7 42.1 51.3 41.4 55 44.8C57.5 44.2 60 43.9 62.5 43.9C65 43.9 67.5 44.2 70 44.8C73.7 41.4 76.3 42.1 76.3 42.1C77.9 45.7 76.8 48.4 76.5 49.1C78.2 51 79.3 53.4 79.3 56.4C79.3 67.1 73.3 69.4 67.7 70.1C68.8 71 69.7 72.7 69.7 75.4C69.7 79.1 69.7 82 69.7 83.1C69.7 83.9 70.2 84.9 71.7 84.6C82.3 81.2 90 71.5 90 60C90 46.2 78.8 35 60 35Z"
+									fill="url(#empty-gradient)"
+								/>
+								<defs>
+									<linearGradient
+										id="empty-gradient"
+										x1="35"
+										y1="35"
+										x2="90"
+										y2="90"
+										gradientUnits="userSpaceOnUse"
+									>
+										<stop stop-color="#7C3AED" stop-opacity="0.5" />
+										<stop offset="1" stop-color="#2563EB" stop-opacity="0.3" />
+									</linearGradient>
+								</defs>
+							</svg>
+						</div>
+						<h3>No Events Yet</h3>
+						<p>
+							Waiting for GitHub actions... Push, create a PR, or merge a branch
+							to see activity here.
+						</p>
+					</div>
+
+					<!-- Events List -->
+					<div class="events-list" id="events-list">
+						<!-- Events will be dynamically inserted here -->
+					</div>
+				</section>
+			</main>
+
+			<!-- Footer -->
+			<footer class="footer">
+				<p>TechStax Developer Assessment &bull; Polling every 15 seconds</p>
+			</footer>
+		</div>
+
+		<script src="/static/app.js"></script>
+	</body>
+</html>

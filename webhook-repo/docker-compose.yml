@@ -1,0 +1,52 @@
+# TechStax GitHub Webhook Stack
+# ==============================
+# Docker Compose configuration for running the complete stack.
+# Usage: docker-compose up -d
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: techstax-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=github_events
+    networks:
+      - techstax-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Webhook Receiver Application
+  webhook-receiver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: techstax-webhook
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - DATABASE_NAME=github_events
+      - COLLECTION_NAME=events
+      - HOST=0.0.0.0
+      - PORT=8000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - techstax-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  techstax-network:
+    driver: bridge

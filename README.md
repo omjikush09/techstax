@@ -6,10 +6,10 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
 
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌─────────────┐     ┌────────────┐
-│   action-repo   │────▶│  webhook-repo    │────▶│   MongoDB   │◀────│     UI     │
-│  (GitHub Repo)  │     │  (FastAPI App)   │     │  (Database) │     │ (Polling)  │
+│  GitHub Repo    │────▶│  Webhook Server  │────▶│   MongoDB   │◀────│     UI     │
+│   (Webhooks)    │     │  (FastAPI App)   │     │  (Database) │     │ (Polling)  │
 └─────────────────┘     └──────────────────┘     └─────────────┘     └────────────┘
-     Webhooks              Webhook Receiver         Data Store        15s Polling
+   Push/PR/Merge           Webhook Receiver         Data Store        15s Polling
 ```
 
 ## 📋 Features
@@ -34,14 +34,14 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
 1. **Clone the repository:**
 
    ```bash
-   git clone <your-webhook-repo-url>
-   cd webhook-repo
+   git clone <your-repo-url>
+   cd techstax
    ```
 
 2. **Start the entire stack:**
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
    This starts both MongoDB and the webhook receiver application.
@@ -49,7 +49,7 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
 3. **View logs:**
 
    ```bash
-   docker-compose logs -f webhook-receiver
+   docker compose logs -f webhook-receiver
    ```
 
 4. **Access the dashboard:** http://localhost:8000
@@ -70,7 +70,7 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
 2. **Start MongoDB only:**
 
    ```bash
-   docker-compose up -d mongodb
+   docker compose up -d mongodb
    ```
 
 3. **Run the application locally:**
@@ -81,17 +81,16 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
    uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
-## 🔗 GitHub Webhook Setup (action-repo)
+## 🔗 GitHub Webhook Setup
 
-1. Create a new repository called `action-repo` on GitHub
-2. Go to **Settings** → **Webhooks** → **Add webhook**
-3. Configure:
+1. Go to your GitHub repository → **Settings** → **Webhooks** → **Add webhook**
+2. Configure:
    - **Payload URL**: `https://your-ngrok-url.ngrok.io/webhook/github`
    - **Content type**: `application/json`
    - **Events**: Select "Let me select individual events"
      - ✅ Pushes
      - ✅ Pull requests
-4. Save the webhook
+3. Save the webhook
 
 ## 📡 API Endpoints
 
@@ -128,7 +127,6 @@ A FastAPI application that receives GitHub webhook events (Push, Pull Request, M
 ## 📁 Project Structure
 
 ```
-webhook-repo/
 ├── main.py              # FastAPI application
 ├── pyproject.toml       # Project config & dependencies (uv)
 ├── uv.lock              # Lock file for reproducible builds
@@ -139,24 +137,13 @@ webhook-repo/
 │   ├── styles.css       # Modern CSS styles
 │   └── app.js           # Frontend JavaScript
 ├── Dockerfile           # Container support
-└── docker-compose.yml   # Docker setup (optional)
+└── docker-compose.yml   # Docker Compose configuration
 ```
-
-## 🐳 Docker Support (Optional)
-
-```bash
-docker-compose up -d
-```
-
-## 📝 Repository Links
-
-- **action-repo**: [GitHub Actions Repository] - Dummy repo for triggering webhooks
-- **webhook-repo**: [Webhook Receiver] - This repository with backend + UI code
 
 ## 🧪 Testing
 
-1. Make a push to `action-repo`
-2. Create a pull request in `action-repo`
+1. Make a push to your repository
+2. Create a pull request
 3. Merge the pull request
 4. Observe events appearing in the UI dashboard
 

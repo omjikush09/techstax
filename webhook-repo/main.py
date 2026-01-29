@@ -464,7 +464,8 @@ async def health_check():
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
+# Testing webhook
+print("test")
 # ==============================================================================
 # Main Entry Point
 # ==============================================================================
